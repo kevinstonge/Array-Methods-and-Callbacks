@@ -35,9 +35,9 @@ console.log(getMatch(fifaData,{"Year":2014,"Stage":"Final"})[0]);
 
 function getWinner(gameObject) {
     if (gameObject["Home Team Goals"] > gameObject["Away Team Goals"]) {
-        return gameObject["Home Team Name"];
+        return gameObject["Home Team Initials"];
     }
-    else { return gameObject["Away Team Name"]}
+    else { return gameObject["Away Team Initials"]}
 }
 //winner of 2014 final:
 console.log(getWinner(getMatch(fifaData,{"Year":2014,"Stage":"Final"})[0]));
@@ -114,19 +114,26 @@ console.log(getAverageGoals(fifaData));
 Hint: Investigate your data to find "team initials"!
 Hint: use `.reduce` */
 
-function getCountryWins(/* code here */) {
+function getCountryWins(data,teamInitials) {
 
-    /* code here */
+    let winCount = getFinals(data).reduce((acc,cur)=>{
+        if (getWinner(cur)==teamInitials) { 
+            acc++;
+        }
+        return acc;
+    },0);
 
+    return `${teamInitials} has won ${winCount} final game(s)`;
 };
 
-getCountryWins();
+console.log(getCountryWins(fifaData,"FRA"));
 
 
 /* Stretch 3: Write a function called getGoals() that accepts a parameter `data` and returns the team with the most goals score per appearance (average goals for) in the World Cup finals */
 
 function getGoals(/* code here */) {
-
+    //highest average goals per appearance in finals
+    //map? initials:goals -> ??
     /* code here */
 
 };
