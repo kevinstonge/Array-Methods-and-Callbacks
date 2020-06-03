@@ -163,7 +163,7 @@ function getGoals(/* code here */) {
             maxAvg = e;
         }
     })
-    console.log(avgGoals);
+    console.log("team with highest average goals per game in finals:");
     console.log(maxAvg);
 
 };
@@ -174,7 +174,8 @@ getGoals();
 /* Stretch 4: Write a function called badDefense() that accepts a parameter `data` and calculates the team with the most goals scored against them per appearance (average goals against) in the World Cup finals */
 
 function badDefense(/* code here */) {
-
+    //highest average points scored by opposing team
+    //This would be almost identical to getGoals() above, but instead of adding hGoals to hInitials, you would add hGoals to aInitials (and rename a few variables for readability)
     /* code here */
 
 };
