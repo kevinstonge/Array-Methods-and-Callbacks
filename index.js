@@ -133,8 +133,38 @@ console.log(getCountryWins(fifaData,"FRA"));
 
 function getGoals(/* code here */) {
     //highest average goals per appearance in finals
-    //map? initials:goals -> ??
     /* code here */
+    let teamGoalsObject = {};
+    let finals = getFinals(fifaData);
+    finals.forEach(e=>{
+        let hInitials = e["Home Team Initials"];
+        let aInitials = e["Away Team Initials"];
+        let hGoals = e["Home Team Goals"];
+        let aGoals = e["Away Team Goals"];
+        if (!teamGoalsObject[hInitials]) {
+            teamGoalsObject[hInitials] = { goals: 0, games: 0, };
+        }
+        if (!teamGoalsObject[aInitials]) {
+            teamGoalsObject[aInitials] = { goals: 0, games: 0, };
+        }
+        teamGoalsObject[hInitials].goals += hGoals;
+        teamGoalsObject[hInitials].games++;
+        teamGoalsObject[aInitials].goals += aGoals;
+        teamGoalsObject[aInitials].games++;
+    });
+    let avgGoals = Object.keys(teamGoalsObject).map(e=>{
+        return({ teamInitials: e, avgGoals: parseFloat((teamGoalsObject[e].goals / teamGoalsObject[e].games).toFixed(2)) });
+    });
+    let maxAvgTemp = 0;
+    let maxAvg = {};
+    avgGoals.forEach(e=>{
+        if (e.avgGoals > maxAvgTemp) { 
+            maxAvgTemp = e.avgGoals; //misses ties
+            maxAvg = e;
+        }
+    })
+    console.log(avgGoals);
+    console.log(maxAvg);
 
 };
 
