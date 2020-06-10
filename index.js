@@ -168,7 +168,31 @@ function getGoals(/* code here */) {
 
 };
 
+function getGoals2() {
+    const goals = getFinals(fifaData).reduce((acc,cur)=>{
+        const hI = cur["Home Team Initials"];
+        const aI = cur["Away Team Initials"];
+        const hG = cur["Home Team Goals"];
+        const aG = cur["Away Team Goals"];
+        acc[hI] = acc[hI] || { goals: 0, games: 0 };
+        acc[aI] = acc[aI] || { goals: 0, games: 0 };
+        acc[hI] = {goals: acc[hI].goals+hG, games: ++acc[hI].games};
+        acc[aI] = {goals: acc[aI].goals+aG, games: ++acc[aI].games}; 
+        return acc;
+    },{})
+    const avgGoals = Object.keys(goals).reduce((acc,cur)=>{
+        const avg = goals[cur].goals/goals[cur].games;
+        if (avg > acc.averageGoals) {
+            return { teamInitials: cur, averageGoals: avg }
+        }
+        else { return acc; }
+    },{teamInitials: "", averageGoals: 0})
+    console.log("team with highest average goals per game in finals (method 2):");
+    console.log(avgGoals);
+}
+
 getGoals();
+getGoals2();
 
 
 /* Stretch 4: Write a function called badDefense() that accepts a parameter `data` and calculates the team with the most goals scored against them per appearance (average goals against) in the World Cup finals */
@@ -177,6 +201,26 @@ function badDefense(/* code here */) {
     //highest average points scored by opposing team
     //This would be almost identical to getGoals() above, but instead of adding hGoals to hInitials, you would add hGoals to aInitials (and rename a few variables for readability)
     /* code here */
+    const goals = getFinals(fifaData).reduce((acc,cur)=>{
+        const hI = cur["Home Team Initials"];
+        const aI = cur["Away Team Initials"];
+        const hG = cur["Home Team Goals"];
+        const aG = cur["Away Team Goals"];
+        acc[hI] = acc[hI] || { goalsAgainst: 0, games: 0 };
+        acc[aI] = acc[aI] || { goalsAgainst: 0, games: 0 };
+        acc[hI] = {goalsAgainst: acc[hI].goalsAgainst+aG, games: ++acc[hI].games};
+        acc[aI] = {goalsAgainst: acc[aI].goalsAgainst+hG, games: ++acc[aI].games}; 
+        return acc;
+    },{})
+    const avgGoals = Object.keys(goals).reduce((acc,cur)=>{
+        const avg = goals[cur].goalsAgainst/goals[cur].games;
+        if (avg > acc.averageGoals) {
+            return { teamInitials: cur, averageGoals: avg }
+        }
+        else { return acc; }
+    },{teamInitials: "", averageGoals: 0})
+    console.log("team with highest average goals against them per game in finals:");
+    console.log(avgGoals);
 
 };
 
