@@ -191,8 +191,33 @@ function getGoals2() {
     console.log(avgGoals);
 }
 
-getGoals();
-getGoals2();
+function getGoals3() { //includes ties
+    const goals = getFinals(fifaData).reduce((acc,cur)=>{
+        const hI = cur["Home Team Initials"];
+        const aI = cur["Away Team Initials"];
+        const hG = cur["Home Team Goals"];
+        const aG = cur["Away Team Goals"];
+        acc[hI] = acc[hI] || { goals: 0, games: 0 };
+        acc[aI] = acc[aI] || { goals: 0, games: 0 };
+        acc[hI] = {goals: acc[hI].goals+hG, games: ++acc[hI].games};
+        acc[aI] = {goals: acc[aI].goals+aG, games: ++acc[aI].games}; 
+        return acc;
+    },{})
+    const maxAvg = Math.max(...Object.values(goals).map((e)=>e.goals/e.games));
+    const highestAvgGoals = Object.keys(goals).reduce((acc,cur)=>{
+        if (goals[cur].goals/goals[cur].games==maxAvg) {
+            console.log(cur, goals[cur].goals)
+            acc[cur] = { averageGoals: goals[cur].goals }
+        }
+        return acc;
+    },{});
+    console.log("team(s) with highest average goals per game in finals (method 3):");
+    console.log(highestAvgGoals);
+}
+
+// getGoals();
+// getGoals2();
+getGoals3();
 
 
 /* Stretch 4: Write a function called badDefense() that accepts a parameter `data` and calculates the team with the most goals scored against them per appearance (average goals against) in the World Cup finals */
